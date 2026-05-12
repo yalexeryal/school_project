@@ -1,6 +1,29 @@
 from django.db import models
 from django.db.models.fields import IntegerField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class CustomUser(AbstractUser):
+    """
+    Кастомная модель пользователя.
+    Добавляем related_name, чтобы избежать конфликтов со стандартной моделью User.
+    """
+    # Указываем уникальные имена для обратных связей
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='custom_user_set', # Новое имя
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.'
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='custom_user_set', # Новое имя
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.'
+    )
 
 
 class Address(models.Model):
@@ -130,6 +153,14 @@ class Student(models.Model):
         SchoolClass,
         through=StudentClassHistory,
         verbose_name="История обучения в классах"
+    )
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Связанный пользователь",
+        help_text="Учетная запись, которой принадлежит этот ученик."
     )
 
     def __str__(self):
