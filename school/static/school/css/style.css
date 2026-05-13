@@ -1,0 +1,39 @@
+/* school/static/school/css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+header {
+    background: #333;
+    color: white;
+    padding: 1rem;
+}
+header nav ul {
+    list-style: none;
+    padding: 0;
+}
+header nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.data-table th {
+    background-color: #f2f2f2;
+}

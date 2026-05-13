@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Моя Школа{% endblock %}</title>
+
+    <!-- Подключаем статический файл стилей -->
+    <link rel="stylesheet" href="{% static 'school/css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><a href="{% url 'home' %}">Портал Школы</a></h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'class_list' %}">Классы</a></li>
+                <li><a href="{% url 'student_list' %}">Ученики</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile_edit' %}">Профиль</a></li>
+                    <li><a href="{% url 'account_logout' %}">Выйти</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_login' %}">Войти</a></li>
+                    <li><a href="{% url 'account_signup' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Здесь будет контент каждой страницы -->
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    <p>© 2026 Моя Школа</p>
+</footer>
+
+</body>
+</html>
