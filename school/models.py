@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.fields import IntegerField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+
 
 class CustomUser(AbstractUser):
     """
@@ -124,7 +124,11 @@ class SchoolClass(models.Model):
 
 
 class StudentClassHistory(models.Model):
-    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name="Ученик")
+    student = models.ForeignKey(
+        'Student',
+        on_delete=models.CASCADE,
+        verbose_name="Ученик",
+        related_name='classes_history')
     school_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE, verbose_name="Класс")
     date_from = models.DateField(verbose_name="Дата поступления")
     date_to = models.DateField(verbose_name="Дата окончания", null=True, blank=True)
@@ -149,11 +153,7 @@ class Student(models.Model):
         verbose_name="Фотография ученика"
     )
 
-    classes_history = models.ManyToManyField(
-        SchoolClass,
-        through=StudentClassHistory,
-        verbose_name="История обучения в классах"
-    )
+
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.SET_NULL,
@@ -173,8 +173,7 @@ class Student(models.Model):
 
     # Удобный метод для получения текущего класса
     def get_current_class(self):
-        # Ищем запись в истории, где дата окончания не указана
-        current_history = self.studentclasshistory_set.filter(date_to__isnull=True).first()
+        current_history = self.classes_history.filter(date_to__isnull=True).first()
         return current_history.school_class if current_history else None
 
 

@@ -1,0 +1,15 @@
+{% extends "school/base.html" %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<h2>Редактирование профиля: {{ student }}</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }} <!-- Эта строка выводит всю форму с тегами <p> -->
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+{% endblock %}

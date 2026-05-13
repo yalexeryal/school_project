@@ -24,7 +24,7 @@
           Нет фото
         {% endif %}
       </td>
-      <td>{{ student.last_name }} {{ student.first_name }}</td>
+      <td><a href="{% url 'student_detail' student.pk %}">{{ student.last_name }} {{ student.first_name }}</a></td>
       <td>{{ student.get_current_class_display }}</td>
       <td>
         <a href="{% url 'student_edit_own' student.pk %}">Редактировать</a> |

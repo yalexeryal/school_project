@@ -1,0 +1,44 @@
+{% extends "school/base.html" %}
+
+{% block content %}
+<h2>{{ student.last_name }} {{ student.first_name }}</h2>
+
+<div>
+    <h3>Текущий класс:</h3>
+    <p>{{ student.get_current_class_display }}</p>
+</div>
+
+<div>
+    <h3>Фото:</h3>
+    {% if student.photo %}
+        <img src="{{ student.photo.url }}" alt="Фото {{ student.last_name }}" width="150">
+    {% else %}
+        <p>Нет фото</p>
+    {% endif %}
+</div>
+
+<!-- Блок истории обучения -->
+<div>
+    <h3>История обучения:</h3>
+    <ul>
+        {% for history in student.classes_history.all %}
+            <li>
+                <!-- НОВЫЙ ВЫВОД ИНФОРМАЦИИ -->
+                {{ history.school_class.grade_number }} класс {{ history.school_class.school.name }}
+
+                <!-- Выводим даты -->
+                с {{ history.date_from }}
+                {% if history.date_to %}
+                    по {{ history.date_to }}
+                {% else %}
+                    по настоящее время
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>История обучения недоступна.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<p><a href="{% url 'student_list' %}">← Назад к списку учеников</a></p>
+{% endblock %}

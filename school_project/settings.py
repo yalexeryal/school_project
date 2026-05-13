@@ -130,4 +130,47 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SITE_ID = 1
 
-ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'password1', 'password2']
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username']
+ACCOUNT_LOGIN_METHODS = ['username', 'email']
+
+LOGIN_REDIRECT_URL = '/profile/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+AUTHENTICATION_BACKENDS = [
+    # Default backend -- to login by username in Django admin
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# --- НАСТРОЙКИ ФОРМ РЕГИСТРАЦИИ ---
+# Указываем, какие поля мы хотим видеть в форме регистрации
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'  # Имя пользователя
+ACCOUNT_EMAIL_REQUIRED = False  # Почта не обязательна (как у тебя в форме)
+ACCOUNT_USERNAME_REQUIRED = False  # Логин не обязателен (как у тебя в форме)
+
+# --- ОТКЛЮЧАЕМ SOCIAL ACCOUNTS (вход через VK, Google и т.д.) ---
+# Это очень важно! Если это включено, форма будет другой.
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+# 1. Включаем возможность регистрации через форму (а не только через соцсети)
+ACCOUNT_OPEN_SIGNUP = True
+
+# 2. Это САМАЯ ВАЖНАЯ настройка. Она говорит форме, что нужно использовать пароль.
+#    Без неё поле пароля не появится.
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+
+# 3. Указываем, что мы используем классическую схему (не беспарольную)
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+# Или просто "username", если хочешь вход только по логину.
+
+# 4. Убедимся, что пароли проверяются
+ACCOUNT_SESSION_REMEMBER = True
+
+# 5. (Опционально) Если хочешь, чтобы пользователь входил сразу после регистрации
+SIGNUP_PASSWORD_ENTER_TWICE = True # Показывать поле "Повтор пароля"

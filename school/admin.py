@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import School, SchoolClass, Student, Position, Employee, Subject, Teacher, Address, StudentClassHistory
+from .models import School, SchoolClass, Student, Position, Employee, Subject, Teacher, Address, StudentClassHistory, CustomUser
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
@@ -74,13 +74,10 @@ class StudentClassHistoryInline(admin.TabularInline):
 @admin.register(Student)
 class StudentAdmin(PhotoAdminMixin, admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'get_current_class_display', 'photo_tag')
-    list_filter = (
-        GradeNumberListFilter,
-        'classes_history__school__name',
-    )
-
+    list_filter = ( GradeNumberListFilter,)
     search_fields = ('last_name', 'first_name')
     inlines = [StudentClassHistoryInline]
+    autocomplete_fields = ['user']
 
     def get_current_class_display(self, obj):
         current_class = obj.get_current_class()
@@ -111,3 +108,12 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name')
     filter_horizontal = ('subjects', 'classes_teaches')
     search_fields = ('last_name', 'subjects__name')
+
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    """
+    Админ-панель для кастомной модели пользователя.
+    """
+    search_fields = ('email', 'username', 'first_name', 'last_name')
+    list_display = ('email', 'username', 'first_name', 'is_staff')

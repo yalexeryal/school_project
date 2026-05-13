@@ -1,0 +1,41 @@
+<!-- school/templates/school/profile_edit.html -->
+
+{% extends "school/base.html" %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if messages %}
+      <div class="alert alert-success" role="alert">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <h2>Редактирование профиля</h2>
+    <h2>Редактирование профиля</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_first_name" class="form-label">Имя</label>
+            <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Фамилия</label>
+            <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

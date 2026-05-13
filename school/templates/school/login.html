@@ -1,0 +1,17 @@
+<!-- school/templates/school/login.html -->
+
+{% extends "school/base.html" %}
+
+{% block title %}Войти{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Войти</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</div>
+{% endblock %}
